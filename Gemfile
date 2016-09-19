@@ -1,12 +1,14 @@
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.21'
+gem 'jquery-rails'
+gem 'mysql2'
+#, '~> 0.3.10'
+gem 'bootstrap-sass', '3.2.0.2'
+gem 'autoprefixer-rails'
+gem 'byebug',  '9.0.0', platform: :mri
 
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'mysql2', '0.3.20'
-#gem 'activerecord-mysql2-adapter'
 
 
 # Gems used only for assets and not required
@@ -21,7 +23,6 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
-gem 'jquery-rails'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

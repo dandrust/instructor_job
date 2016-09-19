@@ -11,23 +11,23 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20160902163106) do
+ActiveRecord::Schema.define(:version => 20160919192721) do
 
   create_table "job_listings", :force => true do |t|
     t.string   "company_name"
-    t.datetime "created_at",                                            :null => false
-    t.datetime "updated_at",                                            :null => false
+    t.datetime "created_at",                                                              :null => false
+    t.datetime "updated_at",                                                              :null => false
     t.string   "course"
     t.string   "location"
     t.date     "class_date"
     t.datetime "class_time"
     t.integer  "number_of_students"
-    t.decimal  "rate",                   :precision => 10, :scale => 0
+    t.decimal  "rate",                   :precision => 6, :scale => 2
     t.text     "description"
     t.integer  "awarded_application_id"
     t.boolean  "needs_insurance"
     t.boolean  "needs_equipment"
-    t.boolean  "approved"
+    t.boolean  "approved",                                             :default => false
   end
 
 end
