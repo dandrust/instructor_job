@@ -1,6 +1,7 @@
 class JobsController < ApplicationController
   before_filter :available_courses
   before_filter :available_jobs
+  before_filter :awarded_jobs
 
   def new
   end
@@ -43,10 +44,15 @@ class JobsController < ApplicationController
   end
 
   def available_jobs
-    @available_jobs = JobListing.where(" approved = true")
+    @available_jobs = JobListing.where("awarded_application_id IS NULL AND approved = true")
                                 .order("class_date DESC")
                                 .limit(10)
-                                #awarded_application_id IS NULL AND
+  end
+
+  def awarded_jobs
+    @awarded_jobs = JobListing.where("awarded_application_id IS NOT NULL AND approved = true")
+                              .order("class_date DESC")
+                              .limit(10)
   end
 
 
