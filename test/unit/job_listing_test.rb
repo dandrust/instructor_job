@@ -78,6 +78,4 @@ class JobListingTest < ActiveSupport::TestCase
     assert_equal false, JobListing.first.approved
   end
 
-
-
 end

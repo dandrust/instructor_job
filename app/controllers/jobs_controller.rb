@@ -1,4 +1,7 @@
 class JobsController < ApplicationController
+  before_filter :available_courses
+  before_filter :available_jobs
+
   def new
   end
 
@@ -7,13 +10,29 @@ class JobsController < ApplicationController
 
   def create
     @new_job = JobListing.new(params[:job_listing])
-    @new_job.save
-    redirect_to jobs_path
+    if @new_job.save
+      flash[:success] = []
+      flash[:success].push("Job successfully created")
+      redirect_to jobs_path
+    else
+      flash.now[:danger] = []
+      @new_job.errors.messages.each do |field, message|
+        flash.now[:danger].push("#{field.to_s.humanize} #{message.first}")
+      end
+      render :index
+    end
 
   end
 
-
   def index
+    @new_job = JobListing.new
+
+
+  end
+
+  private
+
+  def available_courses
     @available_courses = [
       ["First Aid at Work", "First Aid at Work"],
       ["BLS", "BLS"],
@@ -21,17 +40,14 @@ class JobsController < ApplicationController
       ["Food Safety", "Food Safety"],
       ["Manual Handling", "Manual Handling"]
     ]
-
-    @new_job = JobListing.new
   end
 
-  private
-    def new_job_params
-      params.require(:job_listing)
-            .permit(:company_name, :course, :location, :class_date,
-                    :class_time, :number_of_students, :rate,
-                    :description, :needs_equipment, :needs_insurance)
-    end
+  def available_jobs
+    @available_jobs = JobListing.where(" approved = true")
+                                .order("class_date DESC")
+                                .limit(10)
+                                #awarded_application_id IS NULL AND
+  end
 
 
 end
