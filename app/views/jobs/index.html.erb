@@ -8,8 +8,12 @@
 <br />
 
 <!-- Available jobs section -->
+<div class='section-heading'>
+  <h4>Available Jobs</h4>
+</div>
 <div class='panel-group' id='available-jobs-accordion'>
   <% @available_jobs.each do |record| %>
+
     <div class='panel panel-default'>
       <div class='panel-heading' id='heading<%= record.id %>'>
         <h4 class='panel-title'>
@@ -17,21 +21,83 @@
              data-toggle='collapse'
              data-parent='#available-jobs-accordion'
              href='#available-jobs-collapse<%= record.id %>'>
-            <%= record.company_name %>
+             <div class='row'>
+              <div class='col-xs-6'>
+                <%= record.company_name %>
+              </div>
+              <div class='col-xs-6 text-right'>
+                $<%= record.rate %>, <%= record.location %>
+              </div>
           </a>
         </h4>
       </div>
+
       <div id='available-jobs-collapse<%= record.id %>'
-           class='panel-collapse collapse'>
+           class='panel-collapse collapse in'>
         <div class='panel-body'>
-          <%= record.location %><br />
-          <%= record.rate  %><br />
-          <%= record.class_date  %><br />
-          <%= record.class_time  %><br />
-          <%= record.number_of_students  %><br />
-          <%= record.needs_equipment  %><br />
-          <%= record.needs_insurance  %><br />
-          <%= record.description  %><br />
+
+          <div class='row'>
+            <div class='col-md-8'>
+              <!--Award information here-->
+            </div>
+            <div class='col-md-4'>
+              <!--Apply button here-->
+              <!--apply button will open modal-->
+            </div>
+          </div>
+
+
+          <div class='row'>
+            <div class='col-sm-8'>
+              <h3><%= record.company_name %></h3>
+              <h4><%= record.location %></h4><br />
+              <h3>Rate: $<%= record.rate %></h3>
+              <div class='row'>
+                <div class='col-xs-12 col-sm-2 col-md-3 col-lg-2'>
+                  <p>
+                    Requires:
+                  </p>
+                </div>
+                <div class='col-xs-12 col-sm-3 col-md-4 col-lg-4'>
+                  <p>
+                    <% if record.needs_equipment %>
+                      <span class='glyphicon glyphicon-ok-circle'></span>
+                    <% else %>
+                      <span class='glyphicon glyphicon-remove-circle'></span>
+                    <% end %>
+                    Equipment
+                  </p>
+                </div>
+                <div class='col-xs-12 col-sm-3 col-md-4 col-lg-4'>
+                  <p>
+                    <% if record.needs_insurance %>
+                      <span class='glyphicon glyphicon-ok-circle'></span>
+                    <% else %>
+                      <span class='glyphicon glyphicon-remove-circle'></span>
+                    <% end %>
+                    Insurance
+
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class='col-sm-4'>
+              <h3><%= record.class_date.to_formatted_s(:long_ordinal)  %></h3>
+              <h3><%= record.class_time.strftime("%l:%M %p")  %></h3>
+              <h3><%= record.number_of_students  %> students</h3>
+
+            </div>
+
+          </div>
+          <% unless record.description.blank? %>
+            <div class='row'>
+              <div class='col-xs-12'>
+                <h4>Description</h4>
+                <%= record.description  %>
+              </div>
+            </div>
+          <% end %>
         </div>
       </div>
     </div>
