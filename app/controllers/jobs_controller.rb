@@ -1,7 +1,4 @@
 class JobsController < ApplicationController
-  before_filter :available_courses
-  before_filter :available_jobs
-  before_filter :awarded_jobs
 
   def new
   end
@@ -27,32 +24,7 @@ class JobsController < ApplicationController
 
   def index
     @new_job = JobListing.new
-
-
-  end
-
-  private
-
-  def available_courses
-    @available_courses = [
-      ["First Aid at Work", "First Aid at Work"],
-      ["BLS", "BLS"],
-      ["Fire Safety", "Fire Safety"],
-      ["Food Safety", "Food Safety"],
-      ["Manual Handling", "Manual Handling"]
-    ]
-  end
-
-  def available_jobs
-    @available_jobs = JobListing.where("awarded_application_id IS NULL AND approved = true")
-                                .order("class_date DESC")
-                                .limit(10)
-  end
-
-  def awarded_jobs
-    @awarded_jobs = JobListing.where("awarded_application_id IS NOT NULL AND approved = true")
-                              .order("class_date DESC")
-                              .limit(10)
+    @new_app = JobApplication.new
   end
 
 

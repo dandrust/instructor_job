@@ -1,5 +1,6 @@
 class JobListing < ActiveRecord::Base
-  attr_accessible :company_name, :id, :course, :location, :class_date, :class_time, :number_of_students, :rate, :description, :needs_equipment, :needs_insurance, :awarded_application_id, :approved
+  has_many :job_applications
+  attr_accessible :company_name, :id, :course, :location, :class_date, :class_time, :number_of_students, :rate, :description, :needs_equipment, :needs_insurance
 
   validates :company_name, presence: true
   validates :course, presence: true

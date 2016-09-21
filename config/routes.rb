@@ -4,5 +4,7 @@ InstructorJob::Application.routes.draw do
 
 root to: 'static_pages#home'
 resources :jobs
+resources :apps, only: [:create]
+
 
 end

@@ -1,0 +1,31 @@
+<div class='modal fade' id='new-app'>
+  <div class='modal-dialog'>
+    <div class='modal-content'>
+      <div class='modal-header'>
+        <button type='button' class='close' data-dismiss='modal'></button>
+        <h4 class='modal-title'>Apply</h4>
+      </div>
+      <%= form_for @new_app, url: apps_path do |app| %>
+        <div class='modal-body'>
+          <%= app.hidden_field :job_listing_id %>
+          <div class='form-group'>
+            <%= app.label :name %>
+            <%= app.text_field :name, class: 'form-control'  %>
+          </div>
+          <div class='form-group'>
+            <%= app.label :email %>
+            <%= app.text_field :email, class: 'form-control' %>
+          </div>
+          <div class='form-group'>
+            <%= app.label :comments %>
+            <%= app.text_area :comments, class: 'form-control', rows: 3 %>
+          </div>
+      </div>
+      <div class='modal-footer'>
+        <button type='button' class='btn btn-default' data-dismiss="modal">Close</button>
+        <%= app.submit "Submit", class: 'btn btn-primary' %>
+      </div>
+    <% end %>
+    </div>
+  </div>
+</div>
