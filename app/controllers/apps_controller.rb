@@ -7,10 +7,6 @@ def create
     flash[:success].push("Application saved")
     redirect_to jobs_path
   else
-    flash.now[:danger] = []
-    @new_app.errors.messages.each do |field, message|
-      flash.now[:danger].push("#{field.to_s.humanize} #{message.first}")
-    end
     render 'jobs/index'
   end
 end

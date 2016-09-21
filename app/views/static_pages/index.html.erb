@@ -1,3 +1,8 @@
+<div class='row'>
+  <div class='col-md-6 col-md-offset-3'>
+    <%= render 'static_pages/error' %>
+
+
 <!-- Create job button -->
 <button type='button' class='btn btn-primary btn-block' data-toggle='modal' data-target='#new-job' >
   Create Job
@@ -5,12 +10,12 @@
 <br />
 
 <!-- Available jobs section -->
-<%= render 'jobs/available' %>
+<%= render 'static_pages/available' %>
 <br />
 
 <!-- Awarded jobs section -->
-<%= render 'jobs/awarded' %>
+<%= render 'static_pages/awarded' %>
 
 <!-- New job and new app modals -->
-<%= render 'jobs/new' %>
-<%= render 'jobs/apply' %>
+<%= render 'static_pages/new' %>
+<%= render 'static_pages/apply' %>

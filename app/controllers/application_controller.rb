@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
   def available_jobs
     @available_jobs = JobListing.where("awarded_application_id IS NULL AND approved = true")
                                 .order("class_date DESC")
-                                .limit(5)
+                                #.limit(5)
   end
 
   def awarded_jobs

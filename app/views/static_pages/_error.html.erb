@@ -1,0 +1,25 @@
+<% if @new_app.errors.any? %>
+  <div id='error_explanation'>
+    <div class='alert alert-danger'>
+      Your submission contained <%= "#{@new_app.errors.count} #{"error".pluralize(@new_app.errors.count)}" %>
+      <ul>
+        <% @new_app.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+<% end %>
+
+<% if @new_job.errors.any? %>
+  <div id='error_explanation'>
+    <div class='alert alert-danger'>
+      Your submission contained <%= "#{@new_job.errors.count} #{"error".pluralize(@new_job.errors.count)}" %>
+      <ul>
+        <% @new_job.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+<% end %>
