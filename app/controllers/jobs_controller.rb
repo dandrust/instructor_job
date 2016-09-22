@@ -23,6 +23,7 @@ class JobsController < ApplicationController
       flash[:success] = "Job successfully created"
       redirect_to admin_path
     else
+      @role = params[:role]
       render 'static_pages/index'
     end
 

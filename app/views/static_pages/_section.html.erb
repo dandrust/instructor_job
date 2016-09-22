@@ -1,16 +1,22 @@
+<!-- Section title -->
 <div class='section-heading'>
-  <h4>Available Jobs</h4>
-</div>
-<div class='panel-group' id='available-jobs-accordion'>
-  <% @available_jobs.each do |record| %>
 
+  <h4><%= section_title(title, @role) %></h4>
+</div>
+
+<!-- Panel group start -->
+<div class='panel-group' id='available-jobs-accordion'>
+  <% record_set.each do |record| %>
+
+    <!-- Panel start -->
     <div class='panel panel-default'>
+
+      <!-- Panel heading -->
       <div class='panel-heading' id='heading<%= record.id %>'>
         <h4 class='panel-title'>
           <a role='button'
              data-toggle='collapse'
-             data-parent='#available-jobs-accordion'
-             href='#available-jobs-collapse<%= record.id %>'>
+             href='#record-collapse<%= record.id %>'>
              <div class='row'>
               <div class='col-sm-6'>
                 <%= record.company_name %>
@@ -18,31 +24,45 @@
               <div class='col-sm-6'>
                 $<%= record.rate %>, <%= record.location %>
               </div>
+            </div>
           </a>
         </h4>
       </div>
+      <!--              data-parent='#available-jobs-accordion'
+-->
 
-      <div id='available-jobs-collapse<%= record.id %>'
+      <!-- Panel body -->
+      <div id='record-collapse<%= record.id %>'
            class='panel-collapse collapse'>
         <div class='panel-body'>
 
+          <!-- Award/Apply row -->
           <div class='row'>
+
+            <!-- Award row  -->
             <div class='col-md-8'>
-              <!--Award information here-->
+              <% unless record.awarded_application_id.nil? %>
+                <h3>Awarded to <%= record.name %></h3>
+              <% end %>
             </div>
+
+            <!-- Apply row -->
             <div class='col-md-4'>
-              <!--Apply button here-->
-              <button type='button' class='btn btn-primary btn-block apply-btn'
-                      data-toggle='modal' data-target='#new-app'
-                      id='job-id-<%= record.id %>'>
-                Apply
-              </button>
-              <!--apply button will open modal-->
+              <% if record.awarded_application_id.nil? && @role == 'instructor' %>
+                <button type='button' class='btn btn-primary btn-block apply-btn'
+                        data-toggle='modal' data-target='#new-app'
+                        id='job-id-<%= record.id %>'>
+                  Apply
+                </button>
+              <% end %>
             </div>
+
           </div>
 
-
+          <!-- Job information row -->
           <div class='row'>
+
+            <!-- Left column -->
             <div class='col-sm-8'>
               <h3><%= record.company_name %></h3>
               <h4><%= record.location %></h4><br />
@@ -77,13 +97,16 @@
               </div>
             </div>
 
+            <!-- Right column -->
             <div class='col-sm-4'>
               <h3><%= record.class_date.to_formatted_s(:long_ordinal)  %></h3>
               <h3><%= record.class_time.strftime("%l:%M %p")  %></h3>
               <h3><%= record.number_of_students  %> students</h3>
             </div>
+
           </div>
 
+          <!-- Job description row -->
           <div class='row'>
             <div class='col-xs-12'>
               <% unless record.description.blank? %>
@@ -97,18 +120,23 @@
             </div>
           </div>
 
-          <div class='row'>
-            <div class='col-xs-12 visible-sm visible-xs'>
-              <!--Apply button here-->
-              <button type='button' class='btn btn-primary btn-block'
-                      data-toggle='modal' data-target='#'>
-                Apply
-              </button>
-              <!--apply button will open modal-->
+          <!-- Apply button row (bottom)-->
+          <!-- (for use on mobile) -->
+          <% if record.awarded_application_id.nil? %>
+            <div class='row'>
+              <div class='col-xs-12 visible-sm visible-xs'>
+                <button type='button' class='btn btn-primary btn-block'
+                        data-toggle='modal' data-target='#'>
+                  Apply
+                </button>
+                <!--apply button will open modal-->
+              </div>
             </div>
-          </div>
+          <% end %>
 
         </div>
-      </div>
-    </div>
+      </div> <!-- /panel body -->
+
+    </div> <!-- /panel -->
   <% end %>
+</div>

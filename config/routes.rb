@@ -4,6 +4,7 @@ root                to: 'static_pages#home'
 get '/instructor',  to: 'static_pages#instructor'
 get '/admin',       to: 'static_pages#admin'
 
-resources :jobs, :apps, only: [:create, :update]
+resources :jobs, only: [:create, :update]
+resources :apps, only: [:create]
 
 end

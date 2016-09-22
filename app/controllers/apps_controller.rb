@@ -7,7 +7,8 @@ def create
     flash[:success].push("Application saved")
     redirect_to jobs_path
   else
-    render 'jobs/index'
+    @role = 'instructor'
+    render 'static_pages/index'
   end
 end
 

@@ -17,7 +17,7 @@ var addEventToApplyButton = function(){
 var openPreviousListingOnError = function(){
   previousId = $("#job_application_job_listing_id").attr("value")
   if (previousId);
-    $("#available-jobs-collapse" + previousId ).addClass("in");
+    $("#record-collapse" + previousId ).addClass("in");
 };
 
 $(document).ready(function(){

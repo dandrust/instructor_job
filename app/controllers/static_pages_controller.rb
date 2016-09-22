@@ -5,6 +5,7 @@ class StaticPagesController < ApplicationController
   def instructor
     @role = 'instructor'
     render 'static_pages/index'
+
   end
 
   def admin

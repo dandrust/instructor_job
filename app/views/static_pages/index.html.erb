@@ -9,12 +9,18 @@
 </button>
 <br />
 
+
+<!-- Pending jobs section -->
+<% if @role == 'admin' %>
+  <%= render 'static_pages/section', {record_set: @pending_jobs, title: "Pending Jobs"} %>
+<% end %>
+
 <!-- Available jobs section -->
-<%= render 'static_pages/available' %>
+<%= render 'static_pages/section', {record_set: @available_jobs, title: {instructor: "Available Jobs", admin: "Approved Jobs (Not Awarded)"} } %>
 <br />
 
 <!-- Awarded jobs section -->
-<%= render 'static_pages/awarded' %>
+<%= render 'static_pages/section', {record_set: @awarded_jobs, title: "Awarded Jobs"} %>
 
 <!-- New job and new app modals -->
 <%= render 'static_pages/new' %>
