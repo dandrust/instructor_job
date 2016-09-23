@@ -2,10 +2,12 @@
 // All this logic will automatically be available in application.js.
 // You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
+
 var extractTargetId = function(event){
-  return jobId = event.target.id.split("-")[2];
+  return jobId = event.target.id.split("-").pop();
 };
 
+// Functions to support job application modal
 var setJobListingIdField = function(event) {
   $("#job_application_job_listing_id").attr("value", extractTargetId(event));
 };

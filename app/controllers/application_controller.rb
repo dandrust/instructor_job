@@ -29,7 +29,7 @@ class ApplicationController < ActionController::Base
   end
 
   def awarded_jobs
-    @awarded_jobs = JobListing.find_by_sql("SELECT job_listings.*, job_applications.name FROM job_listings INNER JOIN job_applications ON job_listingS.awarded_application_id=job_applications.id ORDER BY job_listings.class_date DESC LIMIT 10")
+    @awarded_jobs = JobListing.find_by_sql("SELECT job_listings.*, job_applications.name FROM job_listings INNER JOIN job_applications ON job_listings.awarded_application_id=job_applications.id ORDER BY job_listings.class_date DESC")
 
   end
 

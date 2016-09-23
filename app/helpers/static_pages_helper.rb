@@ -8,4 +8,12 @@ module StaticPagesHelper
     end
   end
 
+  def html_attributes_for_application_select(record)
+    attributes = {class: 'form-control', onchange: "this.form.submit()"}
+    if record.job_applications.empty?
+      attributes[:disabled] = ""
+    end
+    return attributes
+  end
+
 end

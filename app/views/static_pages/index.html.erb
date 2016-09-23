@@ -1,27 +1,35 @@
 <div class='row'>
-  <div class='col-md-6 col-md-offset-3'>
-    <%= render 'static_pages/error' %>
+  <div class='col-md-8 col-md-offset-3'>
+  <%= render 'static_pages/error' %>
 
+    <!-- Create job button -->
+    <div class='row'>
+      <div class='col-md-9'>
+        <button type='button' class='btn btn-primary btn-block' data-toggle='modal' data-target='#new-job' >
+          Create Job
+        </button>
+      </div>
+    </div>
+    <br />
 
-<!-- Create job button -->
-<button type='button' class='btn btn-primary btn-block' data-toggle='modal' data-target='#new-job' >
-  Create Job
-</button>
-<br />
+    <!-- Pending jobs section -->
+    <% if @role == 'admin' %>
+      <%= render 'static_pages/section', {record_set: @pending_jobs, title: "Pending Jobs"} %>
+    <% end %>
+    <br />
 
+    <!-- Available jobs section -->
+    <%= render 'static_pages/section', {record_set: @available_jobs, title: {instructor: "Available Jobs", admin: "Approved Jobs (Not Awarded)"} } %>
+    <br />
 
-<!-- Pending jobs section -->
-<% if @role == 'admin' %>
-  <%= render 'static_pages/section', {record_set: @pending_jobs, title: "Pending Jobs"} %>
-<% end %>
+    <!-- Awarded jobs section -->
+    <%= render 'static_pages/section', {record_set: @awarded_jobs, title: "Awarded Jobs"} %>
+    <br />
 
-<!-- Available jobs section -->
-<%= render 'static_pages/section', {record_set: @available_jobs, title: {instructor: "Available Jobs", admin: "Approved Jobs (Not Awarded)"} } %>
-<br />
+    <!-- New job and new app modals -->
+    <%= render 'static_pages/new' %>
+    <%= render 'static_pages/apply' %>
+    <%= render 'static_pages/confirm_approval' %>
 
-<!-- Awarded jobs section -->
-<%= render 'static_pages/section', {record_set: @awarded_jobs, title: "Awarded Jobs"} %>
-
-<!-- New job and new app modals -->
-<%= render 'static_pages/new' %>
-<%= render 'static_pages/apply' %>
+  </div>
+</div>

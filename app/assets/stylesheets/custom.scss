@@ -6,3 +6,15 @@
 h1, h2, h3, h4, h5, h6 {
   line-height: 1;
 }
+
+@media (min-width: 480px) {
+  .heading-align {
+    text-align: right;
+  }
+}
+
+@media (max-width: 481px) {
+  .heading-align {
+    text-align: left;
+  }
+}
