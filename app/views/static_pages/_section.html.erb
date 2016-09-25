@@ -1,177 +1,212 @@
+<% title = section_title(section, @role) %>
 <!-- Section title -->
-<div class='section-heading'>
-  <h4><%= section_title(title, @role) %></h4>
-</div>
+<div id="<%= title.split(" ").first.downcase %>">
+  <div class='section-heading'>
+    <h4><%= title %></h4>
+  </div>
 
-<!-- Panel group start -->
-<div class='panel-group' id='accordion'>
-  <% record_set.each do |record| %>
+  <!-- Panel group start -->
+  <div class='panel-group' id='<%= title.underscore %>-accordion'>
+    <% record_set.each do |record| %>
 
-    <!-- Record group start -->
-    <div class='record-group'>
-      <div class='row'>
+      <!-- Record group start -->
+      <div class='record-group'>
+        <div class='row'>
 
-        <!-- Panel col start -->
-        <div class='col-md-9'>
+          <!-- Panel col start -->
+          <div class='col-md-9'>
 
-          <!-- Panel start -->
-          <div class='panel panel-default'>
+            <!-- Panel start -->
+            <div class='panel panel-default'>
 
-            <!-- Panel heading -->
-            <div class='panel-heading' id='heading<%= record.id %>'>
-              <h4 class='panel-title'>
-                <a role='button' data-parent='#accordion' data-toggle='collapse' href='#record-collapse<%= record.id %>'>
-                   <div class='row'>
-                    <div class='col-sm-6'>
-                      <%= record.company_name %>
-                    </div>
-                    <div class='col-sm-6 heading-align'>
-                      $<%= number_with_precision(record.rate, precision: 2) %>, <%= record.location %>
-                    </div>
-                  </div>
-                </a>
-              </h4>
-            </div>
-
-            <!-- Panel body -->
-            <div id='record-collapse<%= record.id %>'
-                 class='panel-collapse collapse'>
-              <div class='panel-body'>
-
-                <!-- Award/Apply row -->
-                <div class='row'>
-
-                  <!-- Award row  -->
-                  <div class='col-md-8'>
-                    <% unless record.awarded_application_id.nil? %>
-                      <h3>Awarded to <%= record.name %></h3>
-                    <% end %>
-                  </div>
-
-                  <!-- Apply row -->
-                  <div class='col-md-4'>
-                    <% if record.awarded_application_id.nil? && @role == 'instructor' %>
-                      <button type='button' class='btn btn-primary btn-block apply-btn'
-                              data-toggle='modal' data-target='#new-app'
-                              id='job-id-<%= record.id %>'>
-                        Apply
-                      </button>
-                    <% end %>
-                  </div>
-
-                </div>
-
-                <!-- Job information row -->
-                <div class='row'>
-
-                  <!-- Left column -->
-                  <div class='col-sm-8'>
-                    <h4><%= record.company_name %></h3>
-                    <h5><%= record.location %></h4><br />
-                    <h4>Rate: $<%= number_with_precision(record.rate, precision: 2) %></h3>
-                    <div class='row'>
-                      <div class='col-xs-12 col-sm-2 col-md-3 col-lg-2'>
-                        <p>
-                          Requires:
-                        </p>
+              <!-- Panel heading -->
+              <div class='panel-heading' id='heading<%= record.id %>'>
+                <h4 class='panel-title'>
+                  <a role='button' data-parent='#accordion' data-toggle='collapse' href='#record-collapse<%= record.id %>'>
+                     <div class='row'>
+                      <div class='col-sm-6'>
+                        <%= record.company_name %>
                       </div>
-                      <div class='col-xs-12 col-sm-3 col-md-4 col-lg-4'>
-                        <p>
-                          <% if record.needs_equipment %>
-                            <span class='glyphicon glyphicon-ok-circle'></span>
-                          <% else %>
-                            <span class='glyphicon glyphicon-remove-circle'></span>
+                      <div class='col-sm-6 heading-align'>
+                        <%= heading_info_for(title, record) %>
+                      </div>
+                    </div>
+                  </a>
+                </h4>
+              </div>
+
+              <!-- Panel body -->
+              <div id='record-collapse<%= record.id %>'
+                   class='panel-collapse collapse'>
+                <div class='panel-body'>
+
+                  <!-- Award/Apply row -->
+                  <div class='row'>
+
+                    <!-- Award col  -->
+                    <div class='col-md-8'>
+                      <% unless record.awarded_application_id.nil? %>
+                        <h3>Awarded to <%= record.name %></h3>
+                      <% end %>
+                    </div>
+
+                    <!-- Apply col -->
+                    <div class='col-md-4'>
+                      <% if record.awarded_application_id.nil? && @role == 'instructor' %>
+                        <button type='button' class='btn btn-primary btn-block apply-btn'
+                                data-toggle='modal' data-target='#new-app'
+                                id='job-id-<%= record.id %>'>
+                          Apply
+                        </button>
+                      <% end %>
+
+                      <% unless record.approved %>
+                        <%= form_for record, url: jobs_path + '/' + record.id.to_s do |f| %>
+                          <%= f.hidden_field :approved %>
+                          <%= f.submit "Approve", class: "btn btn-primary btn-block visible-xs visible-sm", data: {confirm: "Approve this job?"} %>
+                        <% end %>
+                      <% end %>
+
+                      <% if @role == 'admin' && record.approved && record.awarded_application_id.nil? %>
+                          <%= form_for record, url: jobs_path + "/" + record.id.to_s do |f| %>
+                            <%= f.select :awarded_application_id,
+                                options_from_collection_for_select(record.job_applications, "id", "name"),
+                                {include_blank: true},
+                                html_attributes_for_application_select(record, {xs: "visible", sm: "visible"}) %>
                           <% end %>
-                          Equipment
-                        </p>
-                      </div>
-                      <div class='col-xs-12 col-sm-3 col-md-4 col-lg-4'>
-                        <p>
-                          <% if record.needs_insurance %>
-                            <span class='glyphicon glyphicon-ok-circle'></span>
-                          <% else %>
-                            <span class='glyphicon glyphicon-remove-circle'></span>
-                          <% end %>
-                          Insurance
-
-                        </p>
-                      </div>
+                      <% end %>
                     </div>
+
                   </div>
 
-                  <!-- Right column -->
-                  <div class='col-sm-4'>
-                    <h4><%= record.class_date.to_formatted_s(:long_ordinal)  %></h3>
-                    <h4><%= record.class_time.strftime("%l:%M %p")  %></h3>
-                    <h4><%= record.number_of_students  %> students</h3>
-                  </div>
+                  <!-- Job information row -->
+                  <div class='row'>
 
-                </div>
-
-                <!-- Job description row -->
-                <div class='row'>
-                  <div class='col-xs-12'>
-                    <% unless record.description.blank? %>
+                    <!-- Left column -->
+                    <div class='col-sm-8'>
+                      <h4><%= record.company_name %></h4>
+                      <h5><%= record.location %></h5><br />
+                      <h4>Rate: <%= number_to_currency(record.rate, unit: "£") %></h4>
                       <div class='row'>
-                        <div class='col-xs-12'>
-                          <h4>Description</h4>
-                          <%= record.description  %>
+                        <div class='col-xs-12 col-sm-2 col-md-3 col-lg-2'>
+                          <p>
+                            Requires:
+                          </p>
+                        </div>
+                        <div class='col-xs-12 col-sm-3 col-md-4 col-lg-4'>
+                          <p>
+                            <% if record.needs_equipment %>
+                              <span class='glyphicon glyphicon-ok-circle'></span>
+                            <% else %>
+                              <span class='glyphicon glyphicon-remove-circle'></span>
+                            <% end %>
+                            Equipment
+                          </p>
+                        </div>
+                        <div class='col-xs-12 col-sm-3 col-md-4 col-lg-4'>
+                          <p>
+                            <% if record.needs_insurance %>
+                              <span class='glyphicon glyphicon-ok-circle'></span>
+                            <% else %>
+                              <span class='glyphicon glyphicon-remove-circle'></span>
+                            <% end %>
+                            Insurance
+                          </p>
                         </div>
                       </div>
-                    <% end %>
-                  </div>
-                </div>
+                    </div>
 
-                <!-- Apply button row (bottom)-->
-                <!-- (for use on mobile) -->
-                <% if record.awarded_application_id.nil? %>
+                    <!-- Right column -->
+                    <div class='col-sm-4'>
+                      <h4><%= record.class_date.to_formatted_s(:long_ordinal)  %></h4>
+                      <h4><%= record.class_time.strftime("%l:%M %p")  %></h4>
+                      <h4><%= record.number_of_students  %> students</h4>
+                    </div>
+
+                  </div>
+
+                  <!-- Job description row -->
                   <div class='row'>
-                    <div class='col-xs-12 visible-sm visible-xs'>
-                      <button type='button' class='btn btn-primary btn-block'
-                              data-toggle='modal' data-target='#'>
-                        Apply
-                      </button>
-                      <!--apply button will open modal-->
+                    <div class='col-xs-12'>
+                      <% unless record.description.blank? %>
+                        <div class='row'>
+                          <div class='col-xs-12'>
+                            <h4>Description</h4>
+                            <%= record.description  %>
+                          </div>
+                        </div>
+                      <% end %>
                     </div>
                   </div>
-                <% end %>
 
-              </div>
-            </div> <!-- /panel body -->
+                  <!-- Apply button row (bottom)-->
+                  <!-- (for use on mobile) -->
+                  <% if record.awarded_application_id.nil? && @role == 'instructor'%>
+                    <div class='row'>
+                      <div class='col-xs-12 visible-sm visible-xs'>
+                        <button type='button' class='btn btn-primary btn-block'
+                                data-toggle='modal' data-target='#'>
+                          Apply
+                        </button>
+                        <!--apply button will open modal-->
+                      </div>
+                    </div>
+                  <% end %>
 
-          </div> <!-- /panel -->
+                  <% unless record.approved %>
+                    <%= form_for record, url: jobs_path + '/' + record.id.to_s do |f| %>
+                      <%= f.hidden_field :approved %>
+                      <%= f.submit "Approve", class: "btn btn-primary btn-block visible-xs visible-sm", data: {confirm: "Approve this job?"} %>
+                    <% end %>
+                  <% end %>
+
+                  <% if @role == 'admin' && record.approved && record.awarded_application_id.nil? %>
+                      <%= form_for record, url: jobs_path + "/" + record.id.to_s do |f| %>
+                        <%= f.select :awarded_application_id,
+                            options_from_collection_for_select(record.job_applications, "id", "name"),
+                            {include_blank: true},
+                            html_attributes_for_application_select(record, {xs: "visible", sm: "visible"}) %>
+                      <% end %>
+                  <% end %>
+                </div>
+              </div> <!-- /panel body -->
+
+            </div> <!-- /panel -->
 
 
-        </div> <!-- /panel col -->
+          </div> <!-- /panel col -->
 
-        <!-- Panel action col start -->
-        <div class='col-md-3'>
-          <% unless record.approved %>
-            <%= form_for record, url: jobs_path + '/' + record.id.to_s do |f| %>
-              <%= f.hidden_field :approved %>
-              <%= f.submit "Approve", class: "btn btn-primary", data: {confirm: "Approve this job?"} %>
-            <% end %>
-          <% end %>
-
-          <% if @role == 'admin' && record.approved && record.awarded_application_id.nil? %>
-              <%= form_for record, url: jobs_path + "/" + record.id.to_s do |f| %>
-                <%= f.select :awarded_application_id,
-                    options_from_collection_for_select(record.job_applications, "id", "name"),
-                    {include_blank: true},
-                    html_attributes_for_application_select(record) %>
+          <!-- Panel action col start -->
+          <div class='col-md-3'>
+            <% unless record.approved %>
+              <%= form_for record, url: jobs_path + '/' + record.id.to_s do |f| %>
+                <%= f.hidden_field :approved %>
+                <%= f.submit "Approve", class: "btn btn-primary hidden-xs hidden-sm", data: {confirm: "Approve this job?"} %>
               <% end %>
-          <% end %>
+            <% end %>
+
+            <% if @role == 'admin' && record.approved && record.awarded_application_id.nil? %>
+                <%= form_for record, url: jobs_path + "/" + record.id.to_s do |f| %>
+                  <%= f.select :awarded_application_id,
+                      options_from_collection_for_select(record.job_applications, "id", "name"),
+                      {include_blank: true},
+                      html_attributes_for_application_select(record, {xs: "hidden", sm: "hidden"}) %>
+                <% end %>
+            <% end %>
+          </div>
+
         </div>
+      </div> <!-- /record group -->
 
-      </div>
-    </div> <!-- /record group -->
+    <% end %>
+  </div> <!-- /panel group -->
 
+
+
+
+  <% if title == "Awarded Jobs" %>
+    <div class='col-md-9'>
+      <small><a href="#"><p class='text-center'>See more</p></a></small>
+    </div>
   <% end %>
-</div> <!-- /panel group -->
-
-
-<% if section_title(title, @role) == "Awarded Jobs" %>
-  <div class='col-md-9'>
-    <small><a href="#"><p class='text-center'>See more</p></a></small>
-  </div>
-<% end %>
+</div>

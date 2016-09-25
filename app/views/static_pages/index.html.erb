@@ -14,16 +14,16 @@
 
     <!-- Pending jobs section -->
     <% if @role == 'admin' %>
-      <%= render 'static_pages/section', {record_set: @pending_jobs, title: "Pending Jobs"} %>
+      <%= render 'static_pages/section', {record_set: @pending_jobs, section: "Pending Jobs"} %>
     <% end %>
     <br />
 
     <!-- Available jobs section -->
-    <%= render 'static_pages/section', {record_set: @available_jobs, title: {instructor: "Available Jobs", admin: "Approved Jobs (Not Awarded)"} } %>
+    <%= render 'static_pages/section', {record_set: @available_jobs, section: {instructor: "Available Jobs", admin: "Approved Jobs (Not Awarded)"} } %>
     <br />
 
     <!-- Awarded jobs section -->
-    <%= render 'static_pages/section', {record_set: @awarded_jobs, title: "Awarded Jobs"} %>
+    <%= render 'static_pages/section', {record_set: @awarded_jobs, section: "Awarded Jobs"} %>
     <br />
 
     <!-- New job and new app modals -->

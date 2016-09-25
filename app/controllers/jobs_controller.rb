@@ -9,7 +9,8 @@ class JobsController < ApplicationController
 
     if @new_job.save
       flash[:success] = "Job successfully created"
-      redirect_to admin_path
+      redirect_to admin_path if params[:role] == "admin"
+      redirect_to instructor_path if params["role"] == "instructor"
     else
       @role = params[:role]
       render 'static_pages/index'
