@@ -1,1 +1,26 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+sample_company_approved:
+  company_name: Sample Company
+  course: BLS
+  location: Ada
+  class_date: <%= Date.new(2016, 12, 1) %>
+  class_time: <%= DateTime.new(2016, 12, 1, 13, 30) %>
+  number_of_students: 15
+  rate: 1000
+  description: Sample Company needs some pro trainings
+  needs_equipment: false
+  needs_insurance: false
+  approved: true
+
+sample_company_unapproved:
+  company_name: Another Sample Company
+  course: BLS
+  location: Ada
+  class_date: <%= Date.new(2016, 12, 1) %>
+  class_time: <%= DateTime.new(2016, 12, 1, 13, 30) %>
+  number_of_students: 15
+  rate: 1000
+  description: Sample Company needs some pro trainings
+  needs_equipment: false
+  needs_insurance: false

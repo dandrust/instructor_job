@@ -6,11 +6,11 @@
   </div>
 
   <!-- Panel group start -->
-  <div class='panel-group' id='<%= title.underscore %>-accordion'>
+  <div class='panel-group' id='-accordion'>
     <% record_set.each do |record| %>
 
       <!-- Record group start -->
-      <div class='record-group'>
+      <div class='record-group record<%= record.id.to_s %>'>
         <div class='row'>
 
           <!-- Panel col start -->

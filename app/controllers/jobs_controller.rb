@@ -19,7 +19,6 @@ class JobsController < ApplicationController
   end
 
   def update
-
     @job_listing = JobListing.find(params[:id].to_i)
 
     if params[:job_listing].key? "approved"

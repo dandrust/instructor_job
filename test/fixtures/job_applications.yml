@@ -1,1 +1,6 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+dans_app:
+  job_listing_id: 1
+  name: Dan Drust
+  email: dan@example.com
